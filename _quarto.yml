@@ -6,11 +6,12 @@ execute:
   echo: true
 
 book:
-  title: "YOUR PROJECT TITLE"
+  title: "NYC employment"
   author:
-    - AUTHOR1 (UNI1)
-    - AUTHOR2 (UNI2)
-  repo-url: https://github.com/YOUR_GITHUB_ACCOUNT/REPO_NAME
+    - Ali Janati Idrissi (aj3238)
+    - Youssef Mokssit (ym3001)
+    - Maximilian Mason (mmm2491)
+  repo-url: https://github.com/Na00s/nyc_project
   date: today
   page-footer:
     right: |
