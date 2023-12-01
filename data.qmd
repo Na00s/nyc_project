@@ -7,3 +7,33 @@ https://dol.ny.gov/labor-statistics-new-york-city-region
 ## Description
 
 ## Missing value analysis
+```{r}
+library(ggplot2)
+library(naniar)
+
+# Reading the CSV file 
+nyclfsa = read.csv("nyclfsa.csv")
+
+# Displaying a vis_miss plot of the missing values in our dataset
+vis_miss(nyclfsa) + ggtitle("Percentages of Missing Values in the NYC Labor Force Dataset per Column")
+```
+We notice that for this first dataset, there are no missing values.
+
+```{r}
+# Reading the CSV file 
+nycwe = read.csv("nyc_weekly_earnings.csv", na.strings = "")
+
+# Displaying a vis_miss plot of the missing values in our dataset
+vis_miss(nycwe) + ggtitle("Percentages of Missing Values in the NYC Weekly Earnings Dataset per Column")
+```
+For the second weekly earnings dataset, we notice that we have missing values in the last observations row for the columns "Nov", "Dec", and "Annual". This is due to the fact that the last row corresponds to the year 2023, and weekly earning figures haven't been updated for the months of November and December. The same pattern persists in the 2 other sheets included in the file denoting weekly hours nad hourly earnings.
+
+```{r}
+# Reading the CSV file 
+nychist = read.csv("nychist.csv", na.strings = "")
+
+# Displaying a vis_miss plot of the missing values in our dataset
+vis_miss(nychist) + ggtitle("Percentages of Missing Values in the NYC Employment Statistics Dataset per Column")
+```
+We notice a similar pattern in the NYC Employment statistics dataset. In this dataset, the years are listed in descending order with 2023 being at the top; therefore, it is only natural that figures for November and December 2023 are still haven't being updated yet.
+
