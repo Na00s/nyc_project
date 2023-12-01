@@ -1,11 +1,11 @@
 # Data
-https://dol.ny.gov/labor-statistics-new-york-city-region
-https://dol.ny.gov/statistics-state-and-area-employment-hours-and-earnings
-https://dol.ny.gov/statistics-new-york-city-labor-force-data
-https://dol.ny.gov/statistics-new-york-city-employment-statistics
-https://www.bls.gov/news.release/metro.t01.htm# (labor force and unemployment by state and metropolitan area)
-https://www.bls.gov/ces/data/employment-situation-table-download.htm (Use to get US data)
-https://data.bls.gov/PDQWeb/ln (Use to get U.S. labor force data)
+- https://dol.ny.gov/labor-statistics-new-york-city-region
+- https://dol.ny.gov/statistics-state-and-area-employment-hours-and-earnings
+- https://dol.ny.gov/statistics-new-york-city-labor-force-data
+- https://dol.ny.gov/statistics-new-york-city-employment-statistics
+- https://www.bls.gov/news.release/metro.t01.htm# (labor force and unemployment by state and metropolitan area)
+- https://www.bls.gov/ces/data/employment-situation-table-download.htm (Use to get US data)
+- https://data.bls.gov/PDQWeb/ln (Use to get U.S. labor force data)
 
 This first data source we plan to use is the State and Area Employment, Hours, and Earnings taken directly from the New York State Department of Labor's website. This data is collected by the federal government through the Current Employment Statistics Survey where data is collected each month from roughly 140,000 different businesses and government agencies to find employment, hours, and earnings. This is then taken by the state government and filtered to the proper state and city, in this case, the New York State Department of Labor only included data points from New York City. The data is in the format of three excel spreadsheets, one contains the hourly earnings for each month from 2013 to 2023 and it is updated monthly, with November and December currently missing from 2023 in the chart. The dimensions of this data are 10 rows for the years with 12 columns for the months. Other relevant information in this data is it includes an annual average for each year and below the main data contains the percent changes from each month and the annual percent change. The next spreadsheet contains the average weekly hours worked in New York City where again the data is for each month from 2013 to 2023 and is updated monthly, with November and December missing in 2023. Therefor, it has the same dimensions and also includes similar extra information like the annual average and the percent changes below the main data. Lastly, this data contains a spreadsheet with the average weekly earnings of New York City employees. This is again in the same format as the previous data where it contains data from 2013 to 2023 for each month excluding the 2023 months that have not finished yet. It also includes the same additional information with the annual averages and the percent changes below. In order to import this data we will have to import each spreadsheet from the file separaetly. Along with this, we will likely have to clean the title section and remove the percent change sections as the empty spaces in between and the formatting would cause issues importing. If the percent change section is needed we will need to transform the data to add new columns otherwise it would influence the regular data.
 
