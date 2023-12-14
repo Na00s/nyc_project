@@ -189,3 +189,144 @@ ggparcoord(NYC_stats_wide, columns = c(7:12), groupColumn = 1, title = "Potentia
 ggparcoord(stats, columns = c(1, 7:12), groupColumn = 13, title = "Comparing NYC Potential Industries Labor Force Percent Share vs. National")
   
 ```
+```{r}
+
+target_occupations = c("Computer and Mathematical Occupations",                                                                  "Computer Occupations",                                                                               
+"Computer and Information Analysts",                                                                       
+"Computer Systems Analysts",                                                                                
+"Information Security Analysts",                                                                            
+"Computer and Information Research Scientists",                                                             
+"Computer Support Specialists",                                                                         
+"Computer Network Support Specialists",                                                            
+"Computer User Support Specialists",
+"Database Administrators and Architects",
+"Database and Network Administrators and Architects",                                                       
+"Computer Network Architects",                                                                              
+"Database Administrators",                                                                                  
+"Database Architects",                                                                                      
+"Network and Computer Systems Administrators",                                                              
+ "Software and Web Developers, Programmers, and Testers",                                                    
+"Computer Programmers",                                                                                     
+"Software Developers",                                                                                      
+"Software Quality Assurance Analysts and Testers",                                                          
+"Web Developers",                                                                                           
+"Web and Digital Interface Designers",                                                                      
+"Miscellaneous Computer Occupations",                                                                       
+"Computer Occupations, All Other",
+"Data Scientists",
+"Statisticians")
+```
+
+
+```{r}
+# Reading the csv files
+all_data_2022 = read.csv("all_data_2022.csv")
+all_data_2021 = read.csv("all_data_2021.csv")
+all_data_2020 = read.csv("all_data_2020.csv")
+all_data_2019 = read.csv("all_data_2019.csv")
+all_data_2018 = read.csv("all_data_2018.csv")
+
+all_data_2022$YEAR <- "2022"
+all_data_2021$YEAR <- "2021"
+all_data_2020$YEAR <- "2020"
+
+names(all_data_2019) <- toupper(names(all_data_2019))
+all_data_2019$YEAR <- "2019"
+
+names(all_data_2018) <- toupper(names(all_data_2018))
+all_data_2018$YEAR <- "2018"
+```
+
+```{r}
+# Getting a list of NY areas
+NY_areas = all_data_2021$AREA_TITLE[all_data_2021$PRIM_STATE == "NY"] |> unique()
+
+# Compiling datasets for NY per year
+all_data_2022_NY = all_data_2022 |> subset(PRIM_STATE =="NY")
+all_data_2021_NY = all_data_2021 |> subset(PRIM_STATE =="NY")
+all_data_2020_NY = all_data_2020 |> subset(PRIM_STATE =="NY")
+all_data_2019_NY = all_data_2019 |> subset(AREA_TITLE %in% NY_areas)
+all_data_2018_NY = all_data_2018 |> subset(AREA_TITLE %in% NY_areas)
+
+# Adding the missing PRIM_STATE variable
+all_data_2019_NY$PRIM_STATE = 'NY'
+all_data_2018_NY$PRIM_STATE = 'NY'
+
+# Getting a list of common column names so we can combine the datasets
+common_columns = Reduce(intersect, list(names(all_data_2022_NY),names(all_data_2021_NY),names(all_data_2020_NY),names(all_data_2019_NY),names(all_data_2018_NY)))
+
+all_data_NY = rbind(all_data_2022_NY[common_columns], all_data_2021_NY[common_columns], all_data_2020_NY[common_columns], all_data_2019_NY[common_columns], all_data_2018_NY[common_columns])
+
+# Pre-processing the all_data_NY dataset
+all_data_NY$A_MEDIAN = gsub(",", "", all_data_NY$A_MEDIAN) |> as.numeric()
+all_data_NY$A_MEAN = gsub(",", "", all_data_NY$A_MEAN) |> as.numeric()
+all_data_NY$TOT_EMP = gsub(",", "", all_data_NY$TOT_EMP) |> as.numeric()
+
+```
+
+```{r}
+# Unifying labels
+all_data_NY$OCC_TITLE[grepl("Software Developers", all_data_NY$OCC_TITLE)] = "Software Developers"
+all_data_NY$OCC_TITLE[grepl("Data Scientists", all_data_NY$OCC_TITLE)] = "Data Scientists"
+all_data_NY$OCC_TITLE[grepl("Database", all_data_NY$OCC_TITLE)] = "Database Administrators and Architects"
+```
+
+```{r}
+mean_salaries <- all_data_NY[all_data_NY$YEAR == "2022" & all_data_NY$OCC_TITLE %in% target_occupations,] |>
+  group_by(OCC_TITLE) |> summarise(Mean_Annual_Salary = mean(A_MEAN))
+
+ggplot(mean_salaries, aes(x = Mean_Annual_Salary, y = reorder(OCC_TITLE, Mean_Annual_Salary ))) +
+  geom_point(size = 3) +
+  geom_point(data = subset(mean_salaries, OCC_TITLE == "Data Scientists"), color = "red", size = 3) +
+  labs(
+    title = "Mean Annual Salaries for Tech Positions in NY for 2022",
+    x = "Mean Annual Salary in $",
+    y = "Occupation"
+  )
+```
+
+```{r}
+focus_occupations = c("Data Scientists" , "Computer Programmers" , "Statisticians" , "Software Developers", "Database Administrators and Architects", "Computer and Information Research Scientists", "Software Quality Assurance Analysts and Testers" )
+
+all_data_NY[all_data_NY$OCC_TITLE %in% focus_occupations,] |>
+  group_by(YEAR, OCC_TITLE) |> summarise(Mean_Annual_Salary = mean(A_MEAN , na.rm = TRUE)) |>
+  pivot_wider(names_from = YEAR, values_from = Mean_Annual_Salary) |>
+  
+  ggparcoord(
+    columns = 3:6, groupColumn = 1,  scale = "globalminmax", missing = "mean",
+    ) +   
+    labs(title = "The Mean Annual Salary for Tech Jobs across NY State, 2019-2022 ", 
+       x = "Years", 
+       y = "Mean Annual Income in $", 
+       color = "Occupation")
+```
+
+```{r}
+all_data_NY[all_data_NY$OCC_TITLE %in% c("Data Scientists", "Software Developers"),] |>
+  group_by(YEAR, AREA_TITLE, OCC_TITLE) |> summarise(Mean_Annual_Salary = mean(A_MEAN)) |>
+  pivot_wider(names_from = YEAR, values_from = Mean_Annual_Salary) |>
+  
+  ggparcoord(
+    columns = 4:7, groupColumn = 2, showPoints = TRUE,  scale = "globalminmax"
+    ) + 
+       labs(title = "The Mean Annual Salary for DATA Scientists and Software Developers in Different Regions of NY, 2019-2022 ", 
+       x = "Years", 
+       y = "Mean Annual Income in $", 
+       color = "Occupation")
+
+```
+
+```{r}
+all_data_NY[all_data_NY$OCC_TITLE %in% c("Data Scientists", "Software Developers"),] |>
+  group_by(YEAR, AREA_TITLE, OCC_TITLE) |> summarise(Mean_TOT_EMP = mean(TOT_EMP)) |>
+
+  ggplot( aes(x=as.numeric(YEAR), y=Mean_TOT_EMP, fill=OCC_TITLE)) + 
+    geom_area() +
+    facet_wrap(~ AREA_TITLE, scales = "free_y") + 
+    theme(plot.margin = margin(0, 0, 0, 0, "cm")) +
+    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1)) +
+    labs(title = "Total number of Employees per Tech job across NY State Regions", 
+       x = "Years", 
+       y = "Number of Employees", 
+       fill = "Occupation")
+```
