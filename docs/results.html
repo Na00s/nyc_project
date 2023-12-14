@@ -215,52 +215,64 @@ Attaching package: 'dplyr'</code></pre>
 
     intersect, setdiff, setequal, union</code></pre>
 </div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'GGally' was built under R version 4.3.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Registered S3 method overwritten by 'GGally':
+  method from   
+  +.gg   ggplot2</code></pre>
+</div>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>nyc_weekly_earnings <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"nyc_weekly_earnings.csv"</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (col <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"Jan"</span>, <span class="st">"Feb"</span>, <span class="st">"Mar"</span>, <span class="st">"Apr"</span>, <span class="st">"May"</span>, <span class="st">"Jun"</span>, <span class="st">"Jul"</span>, <span class="st">"Aug"</span>, <span class="st">"Sep"</span>, <span class="st">"Oct"</span>, <span class="st">"Nov"</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>              , <span class="st">"Dec"</span>, <span class="st">"Annual"</span>)) {</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  nyc_weekly_earnings[[col]] <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">"[</span><span class="sc">\\</span><span class="st">$,]"</span>, <span class="st">""</span>, nyc_weekly_earnings[[col]]))</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>nyc_weekly_earnings <span class="ot">&lt;-</span> <span class="fu">subset</span>(nyc_weekly_earnings, Year <span class="sc">&gt;=</span> <span class="dv">2013</span>)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>nyc_weekly_earnings <span class="ot">&lt;-</span> nyc_weekly_earnings <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>Annual)</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>national_weekly_earnings <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Average weekly earnings of all employees, total private, seasonally adjusted-national.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>nyc_weekly_earnings <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"nyc_weekly_earnings.csv"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (col <span class="cf">in</span> <span class="fu">c</span>(<span class="st">"Jan"</span>, <span class="st">"Feb"</span>, <span class="st">"Mar"</span>, <span class="st">"Apr"</span>, <span class="st">"May"</span>, <span class="st">"Jun"</span>, <span class="st">"Jul"</span>, <span class="st">"Aug"</span>, <span class="st">"Sep"</span>, <span class="st">"Oct"</span>, <span class="st">"Nov"</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>              , <span class="st">"Dec"</span>, <span class="st">"Annual"</span>)) {</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  nyc_weekly_earnings[[col]] <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">"[</span><span class="sc">\\</span><span class="st">$,]"</span>, <span class="st">""</span>, nyc_weekly_earnings[[col]]))</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>nyc_weekly_earnings <span class="ot">&lt;-</span> <span class="fu">subset</span>(nyc_weekly_earnings, Year <span class="sc">&gt;=</span> <span class="dv">2013</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>nyc_weekly_earnings <span class="ot">&lt;-</span> nyc_weekly_earnings <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>Annual)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>national_weekly_earnings <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Average weekly earnings of all employees, total private, seasonally adjusted-national.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>nyc_weekly_earnings <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(nyc_weekly_earnings, <span class="at">cols =</span> <span class="sc">-</span>Year, <span class="at">names_to =</span> <span class="st">"Month"</span>, <span class="at">values_to =</span> <span class="st">"Value"</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>national_weekly_earnings <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(national_weekly_earnings, <span class="at">cols =</span> <span class="sc">-</span>Year, <span class="at">names_to =</span> <span class="st">"Month"</span>, <span class="at">values_to =</span> <span class="st">"Value"</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>nyc_weekly_earnings<span class="sc">$</span>Location <span class="ot">&lt;-</span> <span class="st">"New York City"</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>national_weekly_earnings<span class="sc">$</span>Location <span class="ot">&lt;-</span> <span class="st">"National"</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>weekly_earnings <span class="ot">&lt;-</span> <span class="fu">rbind</span>(nyc_weekly_earnings, national_weekly_earnings)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>weekly_earnings<span class="sc">$</span>Date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="fu">paste</span>(weekly_earnings<span class="sc">$</span>Year, weekly_earnings<span class="sc">$</span>Month, <span class="st">"01"</span>, <span class="at">sep =</span> <span class="st">"-"</span>), <span class="at">format =</span> <span class="st">"%Y-%b-%d"</span>)</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>weekly_earnings <span class="ot">&lt;-</span> weekly_earnings <span class="sc">|&gt;</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">PercentChange =</span> <span class="fu">c</span>(((Value <span class="sc">-</span> <span class="fu">lag</span>(Value)) <span class="sc">/</span> <span class="fu">lag</span>(Value)) <span class="sc">*</span> <span class="dv">100</span>))</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>weekly_earnings <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(weekly_earnings)</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(weekly_earnings, <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Value, <span class="at">color =</span> Location)) <span class="sc">+</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"NYC vs. National Average Weekly Income Over Time"</span>,</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Date"</span>,</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Average Weekly Income ($)"</span>)<span class="sc">+</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_linedraw</span>()<span class="sc">+</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">date_breaks =</span> <span class="st">"2 year"</span>, <span class="at">date_labels =</span> <span class="st">"%b %Y"</span>)<span class="sc">+</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">800</span>, <span class="dv">1450</span>, <span class="at">by =</span> <span class="dv">50</span>))<span class="sc">+</span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>nyc_weekly_earnings <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(nyc_weekly_earnings, <span class="at">cols =</span> <span class="sc">-</span>Year, <span class="at">names_to =</span> <span class="st">"Month"</span>, <span class="at">values_to =</span> <span class="st">"Value"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>national_weekly_earnings <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(national_weekly_earnings, <span class="at">cols =</span> <span class="sc">-</span>Year, <span class="at">names_to =</span> <span class="st">"Month"</span>, <span class="at">values_to =</span> <span class="st">"Value"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>nyc_weekly_earnings<span class="sc">$</span>Location <span class="ot">&lt;-</span> <span class="st">"New York City"</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>national_weekly_earnings<span class="sc">$</span>Location <span class="ot">&lt;-</span> <span class="st">"National"</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>weekly_earnings <span class="ot">&lt;-</span> <span class="fu">rbind</span>(nyc_weekly_earnings, national_weekly_earnings)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>weekly_earnings<span class="sc">$</span>Date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="fu">paste</span>(weekly_earnings<span class="sc">$</span>Year, weekly_earnings<span class="sc">$</span>Month, <span class="st">"01"</span>, <span class="at">sep =</span> <span class="st">"-"</span>), <span class="at">format =</span> <span class="st">"%Y-%b-%d"</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>weekly_earnings <span class="ot">&lt;-</span> weekly_earnings <span class="sc">|&gt;</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">PercentChange =</span> <span class="fu">c</span>(((Value <span class="sc">-</span> <span class="fu">lag</span>(Value)) <span class="sc">/</span> <span class="fu">lag</span>(Value)) <span class="sc">*</span> <span class="dv">100</span>))</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>weekly_earnings <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(weekly_earnings)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(weekly_earnings, <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Value, <span class="at">color =</span> Location)) <span class="sc">+</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"NYC vs. National Average Weekly Income Over Time"</span>,</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Date"</span>,</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Average Weekly Income ($)"</span>)<span class="sc">+</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_linedraw</span>()<span class="sc">+</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">date_breaks =</span> <span class="st">"2 year"</span>, <span class="at">date_labels =</span> <span class="st">"%b %Y"</span>)<span class="sc">+</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">800</span>, <span class="dv">1450</span>, <span class="at">by =</span> <span class="dv">50</span>))<span class="sc">+</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="results_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
@@ -269,22 +281,22 @@ Attaching package: 'dplyr'</code></pre>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>weekly_earnings <span class="ot">&lt;-</span> weekly_earnings <span class="sc">|&gt;</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">PercentChange =</span> <span class="fu">c</span>(((Value <span class="sc">-</span> <span class="fu">lag</span>(Value)) <span class="sc">/</span> <span class="fu">lag</span>(Value)) <span class="sc">*</span> <span class="dv">100</span>))</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>subsampled_df <span class="ot">&lt;-</span> weekly_earnings <span class="sc">|&gt;</span> <span class="fu">slice</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">n</span>(), <span class="at">by =</span> <span class="dv">2</span>))</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>subsampled_df <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(subsampled_df)</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(subsampled_df, <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> PercentChange, <span class="at">color =</span> Location)) <span class="sc">+</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Percent Change in NYC vs. National Average Weekly Income Over Time"</span>,</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Date"</span>,</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Percent Change in Average Weekly Income (%)"</span>)<span class="sc">+</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_linedraw</span>()<span class="sc">+</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">date_breaks =</span> <span class="st">"2 year"</span>, <span class="at">date_labels =</span> <span class="st">"%b %Y"</span>)<span class="sc">+</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>weekly_earnings <span class="ot">&lt;-</span> weekly_earnings <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">PercentChange =</span> <span class="fu">c</span>(((Value <span class="sc">-</span> <span class="fu">lag</span>(Value)) <span class="sc">/</span> <span class="fu">lag</span>(Value)) <span class="sc">*</span> <span class="dv">100</span>))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>subsampled_df <span class="ot">&lt;-</span> weekly_earnings <span class="sc">|&gt;</span> <span class="fu">slice</span>(<span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">n</span>(), <span class="at">by =</span> <span class="dv">2</span>))</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>subsampled_df <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(subsampled_df)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(subsampled_df, <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> PercentChange, <span class="at">color =</span> Location)) <span class="sc">+</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Percent Change in NYC vs. National Average Weekly Income Over Time"</span>,</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Date"</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Percent Change in Average Weekly Income (%)"</span>)<span class="sc">+</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_linedraw</span>()<span class="sc">+</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">date_breaks =</span> <span class="st">"2 year"</span>, <span class="at">date_labels =</span> <span class="st">"%b %Y"</span>)<span class="sc">+</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="results_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
@@ -293,26 +305,129 @@ Attaching package: 'dplyr'</code></pre>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>nyc_weekly_earnings<span class="sc">$</span>Difference <span class="ot">&lt;-</span> nyc_weekly_earnings<span class="sc">$</span>Value <span class="sc">-</span> national_weekly_earnings<span class="sc">$</span>Value</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>nyc_weekly_earnings<span class="sc">$</span>Date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="fu">paste</span>(nyc_weekly_earnings<span class="sc">$</span>Year, nyc_weekly_earnings<span class="sc">$</span>Month, <span class="st">"01"</span>, <span class="at">sep =</span> <span class="st">"-"</span>), <span class="at">format =</span> <span class="st">"%Y-%b-%d"</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>nyc_weekly_earnings <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(nyc_weekly_earnings)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nyc_weekly_earnings, <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Difference)) <span class="sc">+</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Difference Between NYC and National Average Weekly Earnings Over Time"</span>,</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Date"</span>,</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Average Weekly Income ($)"</span>)<span class="sc">+</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_linedraw</span>()<span class="sc">+</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">date_breaks =</span> <span class="st">"2 year"</span>, <span class="at">date_labels =</span> <span class="st">"%b %Y"</span>)<span class="sc">+</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>nyc_weekly_earnings<span class="sc">$</span>Difference <span class="ot">&lt;-</span> nyc_weekly_earnings<span class="sc">$</span>Value <span class="sc">-</span> national_weekly_earnings<span class="sc">$</span>Value</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>nyc_weekly_earnings<span class="sc">$</span>Date <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="fu">paste</span>(nyc_weekly_earnings<span class="sc">$</span>Year, nyc_weekly_earnings<span class="sc">$</span>Month, <span class="st">"01"</span>, <span class="at">sep =</span> <span class="st">"-"</span>), <span class="at">format =</span> <span class="st">"%Y-%b-%d"</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>nyc_weekly_earnings <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(nyc_weekly_earnings)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(nyc_weekly_earnings, <span class="fu">aes</span>(<span class="at">x =</span> Date, <span class="at">y =</span> Difference)) <span class="sc">+</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Difference Between NYC and National Average Weekly Earnings Over Time"</span>,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Date"</span>,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Average Weekly Income ($)"</span>)<span class="sc">+</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_linedraw</span>()<span class="sc">+</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_date</span>(<span class="at">date_breaks =</span> <span class="st">"2 year"</span>, <span class="at">date_labels =</span> <span class="st">"%b %Y"</span>)<span class="sc">+</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="results_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p><em>Weekly hours next (might not include hourly earnings because could be redundant). Then I’ll do a parallel coordinate plot for the different sectors and their employment rates. Also don’t need to include all three of these graphs, I just thought it was interesting to dive further into depth what was happening. Will also want to do probably just a simple unemployment rate one. </em></p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>NYC_stats <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"NYC Employment Statistics.csv"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>NYC_stats <span class="ot">&lt;-</span> NYC_stats <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="fu">c</span>(YEAR, INDUSTRY_TITLE, JUN))</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>NYC_stats <span class="ot">&lt;-</span> <span class="fu">subset</span>(NYC_stats, INDUSTRY_TITLE <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Information"</span>, <span class="st">"Telecommunications"</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="st">"Financial Activities"</span>, <span class="st">"Financial Investments and Related Activities including Financial Vehicles"</span>, <span class="st">"Professional and Business Services"</span>, <span class="st">"Professional, Scientific, and Technical Services"</span>, <span class="st">"Computer Systems Design and Related Services"</span>, <span class="st">"Management, Scientific, and Technical Consulting Services"</span>, <span class="st">"Scientific Research and Development Services"</span>, <span class="st">"Advertising, Public Relations, and Related Services"</span>, <span class="st">"Government"</span>))</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>NYC_stats<span class="sc">$</span>NYC_Values <span class="ot">&lt;-</span> NYC_stats<span class="sc">$</span>JUN</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>NYC_stats<span class="sc">$</span>Year <span class="ot">&lt;-</span> NYC_stats<span class="sc">$</span>YEAR</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>NYC_stats <span class="ot">&lt;-</span> NYC_stats <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>JUN)</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>NYC_stats <span class="ot">&lt;-</span> NYC_stats <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>YEAR)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>NYC_stats <span class="ot">&lt;-</span> <span class="fu">subset</span>(NYC_stats, Year <span class="sc">&gt;=</span> <span class="dv">2013</span>)</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>NYC_stats<span class="sc">$</span>NYC_Values <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(NYC_stats<span class="sc">$</span>NYC_Values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>telecoms <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Telecommunications-national.csv"</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>SciRe <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Scientific research and development-national.csv"</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>ProSciTech <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Professional,scientific,and technical services-national.csv"</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>ProBuss <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Professional and Business Services-national.csv"</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>ManSciTech <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Management, scientific, and technical consulting services-national.csv"</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>Info <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Information(news) - national.csv"</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>Gov <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Government-national.csv"</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>FinInv <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Financial Investments-national.csv"</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>FinAct <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Financial Activities-national.csv"</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>CompSys <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Computer systems design and related services-national.csv"</span>)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>Advert <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"Advertising, public relations, and related services-national.csv"</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>telecoms<span class="sc">$</span>INDUSTRY_TITLE <span class="ot">&lt;-</span> <span class="st">"Telecommunications"</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>SciRe<span class="sc">$</span>INDUSTRY_TITLE <span class="ot">&lt;-</span> <span class="st">"Scientific Research and Development Services"</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>ProSciTech<span class="sc">$</span>INDUSTRY_TITLE <span class="ot">&lt;-</span> <span class="st">"Professional, Scientific, and Technical Services"</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>ProBuss<span class="sc">$</span>INDUSTRY_TITLE <span class="ot">&lt;-</span> <span class="st">"Professional and Business Services"</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>ManSciTech<span class="sc">$</span>INDUSTRY_TITLE <span class="ot">&lt;-</span> <span class="st">"Management, Scientific, and Technical Consulting Services"</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>Info<span class="sc">$</span>INDUSTRY_TITLE <span class="ot">&lt;-</span> <span class="st">"Information"</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>Gov<span class="sc">$</span>INDUSTRY_TITLE <span class="ot">&lt;-</span> <span class="st">"Government"</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>FinInv<span class="sc">$</span>INDUSTRY_TITLE <span class="ot">&lt;-</span> <span class="st">"Financial Investments and Related Activities including Financial Vehicles"</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>FinAct<span class="sc">$</span>INDUSTRY_TITLE <span class="ot">&lt;-</span> <span class="st">"Financial Activities"</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>CompSys<span class="sc">$</span>INDUSTRY_TITLE <span class="ot">&lt;-</span> <span class="st">"Computer Systems Design and Related Services"</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>Advert<span class="sc">$</span>INDUSTRY_TITLE <span class="ot">&lt;-</span> <span class="st">"Advertising, Public Relations, and Related Services"</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>national_stats <span class="ot">&lt;-</span> <span class="fu">rbind</span>(telecoms, SciRe, ProSciTech, ProBuss, ManSciTech, Info, Gov, FinInv,</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>                        FinAct, CompSys, Advert)</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>national_stats <span class="ot">&lt;-</span> national_stats <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="fu">c</span>(Year, INDUSTRY_TITLE, Jun))</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>national_stats <span class="ot">&lt;-</span> <span class="fu">pivot_longer</span>(national_stats, <span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(Year, INDUSTRY_TITLE), <span class="at">names_to =</span> <span class="st">"Month"</span>, <span class="at">values_to =</span> <span class="st">"National_Values"</span>)</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>national_stats <span class="ot">&lt;-</span> national_stats <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>Month)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>NYC_stats_wide <span class="ot">&lt;-</span> <span class="fu">spread</span>(NYC_stats, <span class="at">key =</span> Year, <span class="at">value =</span> NYC_Values)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>national_stats_wide <span class="ot">&lt;-</span> <span class="fu">spread</span>(national_stats, <span class="at">key =</span> Year, <span class="at">value =</span> National_Values)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>NYC_stats_wide<span class="sc">$</span>Location <span class="ot">&lt;-</span> <span class="st">"New York City"</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>national_stats_wide<span class="sc">$</span>Location <span class="ot">&lt;-</span> <span class="st">"National"</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>national_stats_wide<span class="sc">$</span><span class="st">"2018"</span> <span class="ot">&lt;-</span> (national_stats_wide<span class="sc">$</span><span class="st">"2018"</span> <span class="sc">/</span> <span class="dv">162210</span>) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>NYC_stats_wide<span class="sc">$</span><span class="st">"2018"</span> <span class="ot">&lt;-</span> (NYC_stats_wide<span class="sc">$</span><span class="st">"2018"</span> <span class="sc">/</span> <span class="fl">4262.878</span>) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>national_stats_wide<span class="sc">$</span><span class="st">"2019"</span> <span class="ot">&lt;-</span> (national_stats_wide<span class="sc">$</span><span class="st">"2019"</span> <span class="sc">/</span> <span class="dv">163073</span>) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>NYC_stats_wide<span class="sc">$</span><span class="st">"2019"</span> <span class="ot">&lt;-</span> (NYC_stats_wide<span class="sc">$</span><span class="st">"2019"</span> <span class="sc">/</span> <span class="fl">4261.786</span>) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>national_stats_wide<span class="sc">$</span><span class="st">"2020"</span> <span class="ot">&lt;-</span> (national_stats_wide<span class="sc">$</span><span class="st">"2020"</span> <span class="sc">/</span> <span class="dv">159900</span>) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>NYC_stats_wide<span class="sc">$</span><span class="st">"2020"</span> <span class="ot">&lt;-</span> (NYC_stats_wide<span class="sc">$</span><span class="st">"2020"</span> <span class="sc">/</span> <span class="fl">4061.283</span>) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>national_stats_wide<span class="sc">$</span><span class="st">"2021"</span> <span class="ot">&lt;-</span> (national_stats_wide<span class="sc">$</span><span class="st">"2021"</span> <span class="sc">/</span> <span class="dv">161192</span>) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>NYC_stats_wide<span class="sc">$</span><span class="st">"2021"</span> <span class="ot">&lt;-</span> (NYC_stats_wide<span class="sc">$</span><span class="st">"2021"</span> <span class="sc">/</span> <span class="fl">4116.222</span>) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>national_stats_wide<span class="sc">$</span><span class="st">"2022"</span> <span class="ot">&lt;-</span> (national_stats_wide<span class="sc">$</span><span class="st">"2022"</span> <span class="sc">/</span> <span class="dv">164002</span>) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>NYC_stats_wide<span class="sc">$</span><span class="st">"2022"</span> <span class="ot">&lt;-</span> (NYC_stats_wide<span class="sc">$</span><span class="st">"2022"</span> <span class="sc">/</span> <span class="fl">4099.68</span>) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>national_stats_wide<span class="sc">$</span><span class="st">"2023"</span> <span class="ot">&lt;-</span> (national_stats_wide<span class="sc">$</span><span class="st">"2023"</span> <span class="sc">/</span> <span class="dv">166951</span>) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>NYC_stats_wide<span class="sc">$</span><span class="st">"2023"</span> <span class="ot">&lt;-</span> (NYC_stats_wide<span class="sc">$</span><span class="st">"2023"</span> <span class="sc">/</span> <span class="fl">4184.884</span>) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>stats <span class="ot">&lt;-</span> <span class="fu">rbind</span>(NYC_stats_wide, national_stats_wide)</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a><span class="fu">ggparcoord</span>(NYC_stats_wide, <span class="at">columns =</span> <span class="fu">c</span>(<span class="dv">7</span><span class="sc">:</span><span class="dv">12</span>), <span class="at">groupColumn =</span> <span class="dv">1</span>, <span class="at">title =</span> <span class="st">"Potential Industries Labor Force Share in NYC"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="results_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggparcoord</span>(stats, <span class="at">columns =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">7</span><span class="sc">:</span><span class="dv">12</span>), <span class="at">groupColumn =</span> <span class="dv">13</span>, <span class="at">title =</span> <span class="st">"Comparing NYC Potential Industries Labor Force Percent Share vs. National"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="results_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 
 
 
