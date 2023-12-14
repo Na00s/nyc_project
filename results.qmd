@@ -1,4 +1,10 @@
 # Results
+```{r}
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+```
+
 
 ```{r}
 
@@ -11,16 +17,13 @@ for (col in c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oc
 
 nyc_weekly_earnings <- subset(nyc_weekly_earnings, Year >= 2013)
 
-nyc_weekly_earnings <- nyc_weekly_earnings %>% select(-Annual)
+nyc_weekly_earnings <- nyc_weekly_earnings |> select(-Annual)
 
 national_weekly_earnings <- read.csv("Average weekly earnings of all employees, total private, seasonally adjusted-national.csv")
 
 ```
 
 ```{r}
-
-library(ggplot2)
-library(tidyr)
 
 nyc_weekly_earnings <- pivot_longer(nyc_weekly_earnings, cols = -Year, names_to = "Month", values_to = "Value")
 national_weekly_earnings <- pivot_longer(national_weekly_earnings, cols = -Year, names_to = "Month", values_to = "Value")
@@ -32,6 +35,11 @@ national_weekly_earnings$Location <- "National"
 weekly_earnings <- rbind(nyc_weekly_earnings, national_weekly_earnings)
 
 weekly_earnings$Date <- as.Date(paste(weekly_earnings$Year, weekly_earnings$Month, "01", sep = "-"), format = "%Y-%b-%d")
+
+weekly_earnings <- weekly_earnings |>
+  mutate(PercentChange = c(((Value - lag(Value)) / lag(Value)) * 100))
+
+weekly_earnings <- na.omit(weekly_earnings)
 
 ggplot(weekly_earnings, aes(x = Date, y = Value, color = Location)) +
   geom_line() +
@@ -46,12 +54,12 @@ ggplot(weekly_earnings, aes(x = Date, y = Value, color = Location)) +
 ```
 
 ```{r}
-library(dplyr)
-
-weekly_earnings <- weekly_earnings %>%
+weekly_earnings <- weekly_earnings |>
   mutate(PercentChange = c(((Value - lag(Value)) / lag(Value)) * 100))
 
-subsampled_df <- weekly_earnings %>% slice(seq(1, n(), by = 2))
+subsampled_df <- weekly_earnings |> slice(seq(1, n(), by = 2))
+
+subsampled_df <- na.omit(subsampled_df)
 
 
 ggplot(subsampled_df, aes(x = Date, y = PercentChange, color = Location)) +
@@ -70,6 +78,8 @@ nyc_weekly_earnings$Difference <- nyc_weekly_earnings$Value - national_weekly_ea
 
 nyc_weekly_earnings$Date <- as.Date(paste(nyc_weekly_earnings$Year, nyc_weekly_earnings$Month, "01", sep = "-"), format = "%Y-%b-%d")
 
+nyc_weekly_earnings <- na.omit(nyc_weekly_earnings)
+
 ggplot(nyc_weekly_earnings, aes(x = Date, y = Difference)) +
   geom_line() +
   labs(title = "Difference Between NYC and National Average Weekly Earnings Over Time",
@@ -81,6 +91,7 @@ ggplot(nyc_weekly_earnings, aes(x = Date, y = Difference)) +
 
 ```
 
-*Weekly hours next (might not include hourly earnings because could be redundant). Then I'll do a parallel coordinate plot for the different sectors and their employment rates. Also don't need to include all three of these graphs, I just thought it was interesting to dive further into depth what was happening. Will also want to do probably just a simple unemployment rate one.*
+*Weekly hours next (might not include hourly earnings because could be redundant). Then I'll do a parallel coordinate plot for the different sectors and their employment rates. Also don't need to include all three of these graphs, I just thought it was interesting to dive further into depth what was happening. Will also want to do probably just a simple unemployment rate one. *
+
 
 
