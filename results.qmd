@@ -155,25 +155,29 @@ Average_weekly_nyc <- read.csv("data/NYC average weekly hours.csv")
 Average_weekly_nyc <- select(Average_weekly_nyc, -Annual)
 
 
-Average_weekly_national_long <- Average_weekly_national %>%
-  pivot_longer(cols = -Year, names_to = "Month", values_to = "Hours") %>%
+Average_weekly_national_long <- Average_weekly_national |>
+  pivot_longer(cols = -Year, names_to = "Month", values_to = "Hours") |>
   mutate(Location = "National")
 
 
-Average_weekly_nyc_long <- Average_weekly_nyc %>%
-  pivot_longer(cols = -Year, names_to = "Month", values_to = "Hours") %>%
+Average_weekly_nyc_long <- Average_weekly_nyc |>
+  pivot_longer(cols = -Year, names_to = "Month", values_to = "Hours") |>
   mutate(Location = "NYC")
 
 
 combined_data <- rbind(Average_weekly_national_long, Average_weekly_nyc_long)
 
+combined_data <- subset(combined_data, Year >= 2013)
+
 
 month_levels <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
 combined_data$Month <- factor(combined_data$Month, levels = month_levels)
 
+combined_data$Date <- as.Date(paste(combined_data$Year, combined_data$Month, "01", sep = "-"), format = "%Y-%b-%d")
 
 
-combined_data <- combined_data %>%
+
+combined_data <- combined_data |>
   mutate(Quarter = case_when(
     Month %in% c("Jan", "Feb", "Mar") ~ "Q1",
     Month %in% c("Apr", "May", "Jun") ~ "Q2",
@@ -182,8 +186,9 @@ combined_data <- combined_data %>%
   ))
 
 
-ggplot(combined_data, aes(x = Year, y = Hours, color = Location, group = Location)) +
-  geom_smooth(method = "loess", se = FALSE, span = 0.4)+
+ggplot(combined_data, aes(x = Date, y = Hours, color = Location)) +
+  geom_line()+
+  #geom_smooth(method = "loess", se = FALSE, span = 0.4)+
   theme_minimal() +
   labs(title = "Comparison of Average Weekly Hours: National vs NYC", x = "Year", y = "Average Weekly Hours") +
   scale_color_manual(values = c("blue", "red"))
