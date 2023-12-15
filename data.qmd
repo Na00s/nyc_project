@@ -41,7 +41,7 @@ library(naniar)
 library(dplyr)
 
 # Reading the CSV file 
-nyclfsa = read.csv("nyclfsa.csv")
+nyclfsa = read.csv("data/nyclfsa.csv")
 
 # Displaying a vis_miss plot of the missing values in our dataset
 vis_miss(nyclfsa) + ggtitle("Percentages of Missing Values in the NYC Labor Force Dataset\nper Column")
@@ -50,7 +50,7 @@ We notice that for this first dataset, there are no missing values.
 
 ```{r}
 # Reading the CSV file 
-nycwe = read.csv("nyc_weekly_earnings.csv", na.strings = "")
+nycwe = read.csv("data/nyc_weekly_earnings.csv", na.strings = "")
 
 # Displaying a vis_miss plot of the missing values in our dataset
 vis_miss(nycwe) + ggtitle("Percentages of Missing Values in the NYC Weekly Earnings\nDataset per Column")
@@ -59,7 +59,7 @@ For the second weekly earnings dataset, we notice that we have missing values in
 
 ```{r}
 # Reading the CSV file 
-nychist = read.csv("nychist.csv", na.strings = "")
+nychist = read.csv("data/nychist.csv", na.strings = "")
 
 # Displaying a vis_miss plot of the missing values in our dataset
 vis_miss(nychist) + ggtitle("Percentages of Missing Values in the NYC Employment Statistics\nDataset per Column")
@@ -68,7 +68,7 @@ We notice a similar pattern in the NYC Employment statistics dataset. In this da
 
 ```{r}
 # Reading the CSV file 
-all_data_multi = read.csv("all_data_multi.csv", na.strings = "")
+all_data_multi = read.csv("data/all_data_multi.csv", na.strings = "")
 
 # Displaying a vis_miss plot of the missing values in our "Occupational Employment and Wage Statistics" dataset
 all_data_multi |> 

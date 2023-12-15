@@ -103,7 +103,7 @@
         .attr("class", "nat-bars")
         .attr("x", (d, i) => xScale(i) + 50 + (2 * xScale.bandwidth() / 3))
         .attr("y", d => yScale(d))
-        .attr("width", xScale.bandwidth() / 3)
+        .attr("width", xScale.bandwidth() / 3 - 5)
         .attr("height", d => 400 - yScale(d))
         .attr("fill", "purple");
 
