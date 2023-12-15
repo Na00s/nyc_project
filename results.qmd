@@ -6,41 +6,44 @@
 - N.B. The following section is used to combine 5 datasets into one, we counldn't however keep it as executable code since it would require us to upload very heavy datasets, which Github didn't allow.
 
 ```{r}
-# library(dplyr)
-# library(GGally)
-# library(tidyr)
-# library(grid)
-# library(readr)
-# library(lubridate)
-# 
-# options(warn=-1)
-# 
-# target_occupations = c("All Occupations",
-# "Computer and Mathematical Occupations",
-# "Computer Occupations",                                                                               
-# "Computer and Information Analysts",                                                                       
-# "Computer Systems Analysts",                                                                                
-# "Information Security Analysts",                                                                            
-# "Computer and Information Research Scientists",                                                             
-# "Computer Support Specialists",                                                                         
-# "Computer Network Support Specialists",                                                            
-# "Computer User Support Specialists",
-# "Database Administrators and Architects",
-# "Database and Network Administrators and Architects",                                                       
-# "Computer Network Architects",                                                                              
-# "Database Administrators",                                                                                  
-# "Database Architects",                                                                                      
-# "Network and Computer Systems Administrators",                                                              
-# "Software and Web Developers, Programmers, and Testers",                                                    
-# "Computer Programmers",                                                                                     
-# "Software Developers",                                                                                      
-# "Software Quality Assurance Analysts and Testers",                                                          
-# "Web Developers",                                                                                           
-# "Web and Digital Interface Designers",                                                                      
-# "Miscellaneous Computer Occupations",                                                                       
-# "Computer Occupations, All Other",
-# "Data Scientists",
-# "Statisticians")
+library(dplyr)
+library(GGally)
+library(tidyr)
+library(grid)
+library(readr)
+library(lubridate)
+
+options(warn=-1)
+ 
+target_occupations = c("All Occupations",
+"Computer and Mathematical Occupations",
+"Computer Occupations",                                                                               
+"Computer and Information Analysts",                                                                       
+"Computer Systems Analysts",                                                                                
+"Information Security Analysts",                                                                            
+"Computer and Information Research Scientists",                                                             
+"Computer Support Specialists",                                                                         
+"Computer Network Support Specialists",                                                            
+"Computer User Support Specialists",
+"Database Administrators and Architects",
+"Database and Network Administrators and Architects",                                                       
+"Computer Network Architects",                                                                              
+"Database Administrators",                                                                                  
+"Database Architects",                                                                                      
+"Network and Computer Systems Administrators",                                                              
+"Software and Web Developers, Programmers, and Testers",                                                    
+"Computer Programmers",                                                                                     
+"Software Developers",                                                                                      
+"Software Quality Assurance Analysts and Testers",                                                          
+"Web Developers",                                                                                           
+"Web and Digital Interface Designers",                                                                      
+"Miscellaneous Computer Occupations",                                                                       
+"Computer Occupations, All Other",
+"Data Scientists",
+"Statisticians")
+```
+
+```{r}
 # 
 # # Reading the csv files
 # all_data_2022 = read.csv("data/all_data_2022.csv")
@@ -152,6 +155,8 @@
 ```{r}
 # Load the data from the CSV file
 Average_weekly_nyc <- read.csv("data/NYC average weekly hours.csv")
+
+Average_weekly_national <- read.csv("data/Average weekly hours of all employees, total private, seasonally adjusted-national.csv")
 
 Average_weekly_nyc <- select(Average_weekly_nyc, -Annual)
 
