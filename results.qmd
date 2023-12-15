@@ -53,6 +53,7 @@ ggplot(weekly_earnings, aes(x = Date, y = Value, color = Location)) +
   theme(plot.title = element_text(hjust = 0.5))
 
 ```
+*Here you can see the National Average weekly salary is much lower than the NYC average weekly salary. However, you can also see that the NYC average is much more volatile with the national average continuously increasing steadily. You can also see, in recent months it appears that the national average weekly salary is increasing more than NYC as the NYC salary appears to have almost leveled off in the past year. *
 
 ```{r}
 weekly_earnings <- weekly_earnings |>
@@ -73,6 +74,8 @@ ggplot(subsampled_df, aes(x = Date, y = PercentChange, color = Location)) +
   theme(plot.title = element_text(hjust = 0.5))
 ```
 
+*Here we are looking at the percent change over time for both the NYC average weekly salary and the national average weekly salary. This further proves how volatile and seasonal NYC salaries can be. Furthermore, this does show that the national average may be growing faster than the NYC national average over the past few months but this can still be quite hard to read and at first glance looks like currently, NYC salaries are increasing faster than the national average.*
+
 ```{r}
 
 nyc_weekly_earnings$Difference <- nyc_weekly_earnings$Value - national_weekly_earnings$Value
@@ -92,7 +95,7 @@ ggplot(nyc_weekly_earnings, aes(x = Date, y = Difference)) +
 
 ```
 
-*Weekly hours next (might not include hourly earnings because could be redundant). Then I'll do a parallel coordinate plot for the different sectors and their employment rates. Also don't need to include all three of these graphs, I just thought it was interesting to dive further into depth what was happening. Will also want to do probably just a simple unemployment rate one. pushhh*
+*In order to further visualize this and get a better understanding of if the national salary is truly catching up with NYC salaries, we plotted the difference between the NYC and nation average weekly salary. Here you can clearly see there is a current downward trend as it appears the rest of the country is increasing their salaries comparatively to NYC. However, NYC remains having, on average, a weekly salary of a little over $200 more than the rest of the country.*
 
 ```{r}
 
@@ -184,11 +187,16 @@ stats <- rbind(NYC_stats_wide, national_stats_wide)
 ggparcoord(NYC_stats_wide, columns = c(7:12), groupColumn = 1, title = "Potential Industries Labor Force Share in NYC")
 ```
 
+*This plot shows the percent share of the labor force each potential industry that might hire a data scientist has in NYC over time. This shows, working in scientific research and even computer systems is not a very large portion of the NYC labor forces. This means if you're interested in these sectors you may find larger companies elsewhere. But I think the biggest takeaway from this graph is the industries that are massive in NYC, mainly Business services. This means that Business services have a large employee base here and if you wish to work in that sector, NYC may be your best option. Furthermore, when you see an increase in the percentage of the labor force over time, that means those industries are hiring, so along with being the largest proportion, business services companies are also hiring.*
+
 ```{r}
 
 ggparcoord(stats, columns = c(1, 7:12), groupColumn = 13, title = "Comparing NYC Potential Industries Labor Force Percent Share vs. National")
   
 ```
+
+*Here we are comparing the same industries percent share of the labor force in NYC against their share of the labor force in the United States. This gives us an idea if there are industries that are larger than average or smaller than average. When reading this, you can see many of the blue lines are about the same if not above the red lines, giving us an indication that many of the industries we chose are either average size compared nationally or above average size, making an argument that NYC is a good location to be hired in these industries as they employ a large amount of the labor force comparatively to national averages.*
+
 ```{r}
 
 target_occupations = c("Computer and Mathematical Occupations",                                                                  "Computer Occupations",                                                                               
