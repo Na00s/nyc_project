@@ -2,144 +2,148 @@
 
 ## Data Preprocessing
 ### First dataset: NY figures only (all_data_NY.csv)
+
+- N.B. The following section is used to combine 5 datasets into one, we counldn't however keep it as executable code since it would require us to upload very heavy datasets, which Github didn't allow.
+
 ```{r}
-library(dplyr)
-library(GGally)
-library(tidyr)
-library(grid)
-library(readr)
-library(lubridate)
-
-options(warn=-1)
-
-target_occupations = c("All Occupations",
-"Computer and Mathematical Occupations",
-"Computer Occupations",                                                                               
-"Computer and Information Analysts",                                                                       
-"Computer Systems Analysts",                                                                                
-"Information Security Analysts",                                                                            
-"Computer and Information Research Scientists",                                                             
-"Computer Support Specialists",                                                                         
-"Computer Network Support Specialists",                                                            
-"Computer User Support Specialists",
-"Database Administrators and Architects",
-"Database and Network Administrators and Architects",                                                       
-"Computer Network Architects",                                                                              
-"Database Administrators",                                                                                  
-"Database Architects",                                                                                      
-"Network and Computer Systems Administrators",                                                              
-"Software and Web Developers, Programmers, and Testers",                                                    
-"Computer Programmers",                                                                                     
-"Software Developers",                                                                                      
-"Software Quality Assurance Analysts and Testers",                                                          
-"Web Developers",                                                                                           
-"Web and Digital Interface Designers",                                                                      
-"Miscellaneous Computer Occupations",                                                                       
-"Computer Occupations, All Other",
-"Data Scientists",
-"Statisticians")
-
-# Reading the csv files
-all_data_2022 = read.csv("data/all_data_2022.csv")
-all_data_2021 = read.csv("data/all_data_2021.csv")
-all_data_2020 = read.csv("data/all_data_2020.csv")
-all_data_2019 = read.csv("data/all_data_2019.csv")
-all_data_2018 = read.csv("data/all_data_2018.csv")
-
-all_data_2022$YEAR <- "2022"
-all_data_2021$YEAR <- "2021"
-all_data_2020$YEAR <- "2020"
-
-names(all_data_2019) <- toupper(names(all_data_2019))
-all_data_2019$YEAR <- "2019"
-
-names(all_data_2018) <- toupper(names(all_data_2018))
-all_data_2018$YEAR <- "2018"
-
-# Getting a list of NY areas
-NY_areas = all_data_2021$AREA_TITLE[all_data_2021$PRIM_STATE == "NY"] |> unique()
-CA_areas = all_data_2021$AREA_TITLE[all_data_2021$PRIM_STATE == "CA"] |> unique()
-
-# Compiling datasets for NY per year
-all_data_2022_NY = all_data_2022 |> subset(PRIM_STATE =="NY" )
-all_data_2021_NY = all_data_2021 |> subset(PRIM_STATE =="NY")
-all_data_2020_NY = all_data_2020 |> subset(PRIM_STATE =="NY")
-all_data_2019_NY = all_data_2019 |> subset(AREA_TITLE %in% NY_areas)
-all_data_2018_NY = all_data_2018 |> subset(AREA_TITLE %in% NY_areas)
-
-# Adding the missing PRIM_STATE variable
-all_data_2019_NY$PRIM_STATE = 'NY'
-all_data_2018_NY$PRIM_STATE = 'NY'
-
-# Getting a list of common column names so we can combine the datasets
-common_columns = Reduce(intersect, list(names(all_data_2022_NY),names(all_data_2021_NY),names(all_data_2020_NY),names(all_data_2019_NY),names(all_data_2018_NY)))
-
-all_data_NY = rbind(all_data_2022_NY[common_columns], all_data_2021_NY[common_columns], all_data_2020_NY[common_columns], all_data_2019_NY[common_columns], all_data_2018_NY[common_columns])
-
-# Pre-processing the all_data_NY dataset
-all_data_NY$A_MEDIAN = gsub(",", "", all_data_NY$A_MEDIAN) |> as.numeric()
-all_data_NY$A_MEAN = gsub(",", "", all_data_NY$A_MEAN) |> as.numeric()
-all_data_NY$TOT_EMP = gsub(",", "", all_data_NY$TOT_EMP) |> as.numeric()
-
-# Unifying labels
-all_data_NY$OCC_TITLE[grepl("Software Developers", all_data_NY$OCC_TITLE)] = "Software Developers"
-all_data_NY$OCC_TITLE[grepl("Data Scientists", all_data_NY$OCC_TITLE)] = "Data Scientists"
-all_data_NY$OCC_TITLE[grepl("Database", all_data_NY$OCC_TITLE)] = "Database Administrators and Architects"
-
+# library(dplyr)
+# library(GGally)
+# library(tidyr)
+# library(grid)
+# library(readr)
+# library(lubridate)
+# 
+# options(warn=-1)
+# 
+# target_occupations = c("All Occupations",
+# "Computer and Mathematical Occupations",
+# "Computer Occupations",                                                                               
+# "Computer and Information Analysts",                                                                       
+# "Computer Systems Analysts",                                                                                
+# "Information Security Analysts",                                                                            
+# "Computer and Information Research Scientists",                                                             
+# "Computer Support Specialists",                                                                         
+# "Computer Network Support Specialists",                                                            
+# "Computer User Support Specialists",
+# "Database Administrators and Architects",
+# "Database and Network Administrators and Architects",                                                       
+# "Computer Network Architects",                                                                              
+# "Database Administrators",                                                                                  
+# "Database Architects",                                                                                      
+# "Network and Computer Systems Administrators",                                                              
+# "Software and Web Developers, Programmers, and Testers",                                                    
+# "Computer Programmers",                                                                                     
+# "Software Developers",                                                                                      
+# "Software Quality Assurance Analysts and Testers",                                                          
+# "Web Developers",                                                                                           
+# "Web and Digital Interface Designers",                                                                      
+# "Miscellaneous Computer Occupations",                                                                       
+# "Computer Occupations, All Other",
+# "Data Scientists",
+# "Statisticians")
+# 
+# # Reading the csv files
+# all_data_2022 = read.csv("data/all_data_2022.csv")
+# all_data_2021 = read.csv("data/all_data_2021.csv")
+# all_data_2020 = read.csv("data/all_data_2020.csv")
+# all_data_2019 = read.csv("data/all_data_2019.csv")
+# all_data_2018 = read.csv("data/all_data_2018.csv")
+# 
+# all_data_2022$YEAR <- "2022"
+# all_data_2021$YEAR <- "2021"
+# all_data_2020$YEAR <- "2020"
+# 
+# names(all_data_2019) <- toupper(names(all_data_2019))
+# all_data_2019$YEAR <- "2019"
+# 
+# names(all_data_2018) <- toupper(names(all_data_2018))
+# all_data_2018$YEAR <- "2018"
+# 
+# # Getting a list of NY areas
+# NY_areas = all_data_2021$AREA_TITLE[all_data_2021$PRIM_STATE == "NY"] |> unique()
+# CA_areas = all_data_2021$AREA_TITLE[all_data_2021$PRIM_STATE == "CA"] |> unique()
+# 
+# # Compiling datasets for NY per year
+# all_data_2022_NY = all_data_2022 |> subset(PRIM_STATE =="NY" )
+# all_data_2021_NY = all_data_2021 |> subset(PRIM_STATE =="NY")
+# all_data_2020_NY = all_data_2020 |> subset(PRIM_STATE =="NY")
+# all_data_2019_NY = all_data_2019 |> subset(AREA_TITLE %in% NY_areas)
+# all_data_2018_NY = all_data_2018 |> subset(AREA_TITLE %in% NY_areas)
+# 
+# # Adding the missing PRIM_STATE variable
+# all_data_2019_NY$PRIM_STATE = 'NY'
+# all_data_2018_NY$PRIM_STATE = 'NY'
+# 
+# # Getting a list of common column names so we can combine the datasets
+# common_columns = Reduce(intersect, list(names(all_data_2022_NY),names(all_data_2021_NY),names(all_data_2020_NY),names(all_data_2019_NY),names(all_data_2018_NY)))
+# 
+# all_data_NY = rbind(all_data_2022_NY[common_columns], all_data_2021_NY[common_columns], all_data_2020_NY[common_columns], all_data_2019_NY[common_columns], all_data_2018_NY[common_columns])
+# 
+# # Pre-processing the all_data_NY dataset
+# all_data_NY$A_MEDIAN = gsub(",", "", all_data_NY$A_MEDIAN) |> as.numeric()
+# all_data_NY$A_MEAN = gsub(",", "", all_data_NY$A_MEAN) |> as.numeric()
+# all_data_NY$TOT_EMP = gsub(",", "", all_data_NY$TOT_EMP) |> as.numeric()
+# 
+# # Unifying labels
+# all_data_NY$OCC_TITLE[grepl("Software Developers", all_data_NY$OCC_TITLE)] = "Software Developers"
+# all_data_NY$OCC_TITLE[grepl("Data Scientists", all_data_NY$OCC_TITLE)] = "Data Scientists"
+# all_data_NY$OCC_TITLE[grepl("Database", all_data_NY$OCC_TITLE)] = "Database Administrators and Architects"
+# 
 ```
 
 - The "all_data_NY.csv" dataset is a compilation of 5 datasets from the the U.S Bureau of Labor Statistics (Source: https://www.bls.gov/oes/tables.htm). Only rows pertinent to NY were included.
 
-### Second dataset: NY, CA and national figures  (all_data_multi.csv)
 ```{r}
-# Creating a dataset including CA and the national average
-
-# Getting a list of NY and CA areas
-NY_areas = all_data_2021$AREA_TITLE[all_data_2021$PRIM_STATE == "NY"] |> unique()
-CA_areas = all_data_2021$AREA_TITLE[all_data_2021$PRIM_STATE == "CA"] |> unique()
-
-
-# Compiling datasets for NY and CA and US per year
-all_data_2022_Multi = all_data_2022 |> subset(PRIM_STATE %in% c("NY","CA", "US"))
-all_data_2021_Multi = all_data_2021 |> subset(PRIM_STATE %in% c("NY","CA","US"))
-all_data_2020_Multi = all_data_2020 |> subset(PRIM_STATE %in% c("NY","CA","US"))
-all_data_2019_Multi = all_data_2019 |> subset(AREA_TITLE %in% c(CA_areas, NY_areas, "U.S."))
-all_data_2018_Multi = all_data_2018 |> subset(AREA_TITLE %in% c(CA_areas, NY_areas, "U.S."))
-
-# Adding the missing PRIM_STATE variable to the 2019 and 2018 datasets
-all_data_2019_Multi = all_data_2019_Multi |>  mutate(PRIM_STATE = case_when(
-    AREA_TITLE %in% NY_areas ~ "NY",
-    AREA_TITLE %in% CA_areas ~ "CA",
-    AREA_TITLE == "U.S." ~ "US"
-  ))
-
-all_data_2018_Multi = all_data_2018_Multi |>  mutate(PRIM_STATE = case_when(
-    AREA_TITLE %in% NY_areas ~ "NY",
-    AREA_TITLE %in% CA_areas ~ "CA",
-    AREA_TITLE == "U.S." ~ "US"
-  ))
-
-
-# Getting a list of common column names so we can combine the datasets
-common_columns_multi = Reduce(intersect, list(names(all_data_2022_Multi),names(all_data_2021_Multi),names(all_data_2020_Multi),names(all_data_2019_Multi),names(all_data_2018_Multi)))
-
-all_data_multi = rbind(all_data_2022_Multi[common_columns_multi], all_data_2021_Multi[common_columns_multi], all_data_2020_Multi[common_columns_multi], all_data_2019_Multi[common_columns_multi], all_data_2018_Multi[common_columns_multi])
-
-# Pre-processing the all_data_NY dataset
-all_data_multi$A_MEDIAN = gsub(",", "", all_data_multi$A_MEDIAN) |> as.numeric()
-all_data_multi$A_MEAN = gsub(",", "", all_data_multi$A_MEAN) |> as.numeric()
-all_data_multi$TOT_EMP = gsub(",", "", all_data_multi$TOT_EMP) |> as.numeric()
-
-# Unifying labels for all_data_multi
-all_data_multi$OCC_TITLE[grepl("Software Developers", all_data_multi$OCC_TITLE)] = "Software Developers"
-all_data_multi$OCC_TITLE[grepl("Data Scientists", all_data_multi$OCC_TITLE)] = "Data Scientists"
-all_data_multi$OCC_TITLE[grepl("Database", all_data_multi$OCC_TITLE)] = "Database Administrators and Architects"
-
-# Subseting the data to include only target occupations
-all_data_multi = all_data_multi |> subset(OCC_TITLE %in% target_occupations)
-
-# This dataset contains information for NY, CA and the US in general (for the interactive graph)
-#all_data_multi |> write.csv(file = "all_data_multi.csv", row.names = FALSE)
+# ### Second dataset: NY, CA and national figures  (all_data_multi.csv)
+# ```{r}
+# # Creating a dataset including CA and the national average
+# 
+# # Getting a list of NY and CA areas
+# NY_areas = all_data_2021$AREA_TITLE[all_data_2021$PRIM_STATE == "NY"] |> unique()
+# CA_areas = all_data_2021$AREA_TITLE[all_data_2021$PRIM_STATE == "CA"] |> unique()
+# 
+# 
+# # Compiling datasets for NY and CA and US per year
+# all_data_2022_Multi = all_data_2022 |> subset(PRIM_STATE %in% c("NY","CA", "US"))
+# all_data_2021_Multi = all_data_2021 |> subset(PRIM_STATE %in% c("NY","CA","US"))
+# all_data_2020_Multi = all_data_2020 |> subset(PRIM_STATE %in% c("NY","CA","US"))
+# all_data_2019_Multi = all_data_2019 |> subset(AREA_TITLE %in% c(CA_areas, NY_areas, "U.S."))
+# all_data_2018_Multi = all_data_2018 |> subset(AREA_TITLE %in% c(CA_areas, NY_areas, "U.S."))
+# 
+# # Adding the missing PRIM_STATE variable to the 2019 and 2018 datasets
+# all_data_2019_Multi = all_data_2019_Multi |>  mutate(PRIM_STATE = case_when(
+#     AREA_TITLE %in% NY_areas ~ "NY",
+#     AREA_TITLE %in% CA_areas ~ "CA",
+#     AREA_TITLE == "U.S." ~ "US"
+#   ))
+# 
+# all_data_2018_Multi = all_data_2018_Multi |>  mutate(PRIM_STATE = case_when(
+#     AREA_TITLE %in% NY_areas ~ "NY",
+#     AREA_TITLE %in% CA_areas ~ "CA",
+#     AREA_TITLE == "U.S." ~ "US"
+#   ))
+# 
+# 
+# # Getting a list of common column names so we can combine the datasets
+# common_columns_multi = Reduce(intersect, list(names(all_data_2022_Multi),names(all_data_2021_Multi),names(all_data_2020_Multi),names(all_data_2019_Multi),names(all_data_2018_Multi)))
+# 
+# all_data_multi = rbind(all_data_2022_Multi[common_columns_multi], all_data_2021_Multi[common_columns_multi], all_data_2020_Multi[common_columns_multi], all_data_2019_Multi[common_columns_multi], all_data_2018_Multi[common_columns_multi])
+# 
+# # Pre-processing the all_data_NY dataset
+# all_data_multi$A_MEDIAN = gsub(",", "", all_data_multi$A_MEDIAN) |> as.numeric()
+# all_data_multi$A_MEAN = gsub(",", "", all_data_multi$A_MEAN) |> as.numeric()
+# all_data_multi$TOT_EMP = gsub(",", "", all_data_multi$TOT_EMP) |> as.numeric()
+# 
+# # Unifying labels for all_data_multi
+# all_data_multi$OCC_TITLE[grepl("Software Developers", all_data_multi$OCC_TITLE)] = "Software Developers"
+# all_data_multi$OCC_TITLE[grepl("Data Scientists", all_data_multi$OCC_TITLE)] = "Data Scientists"
+# all_data_multi$OCC_TITLE[grepl("Database", all_data_multi$OCC_TITLE)] = "Database Administrators and Architects"
+# 
+# # Subseting the data to include only target occupations
+# all_data_multi = all_data_multi |> subset(OCC_TITLE %in% target_occupations)
+# 
+# # This dataset contains information for NY, CA and the US in general (for the interactive graph)
+# #all_data_multi |> write.csv(file = "all_data_multi.csv", row.names = FALSE)
 ```
 - The "all_data_multi.csv" dataset is a compilation of 5 datasets from the the U.S Bureau of Labor Statistics (Source: https://www.bls.gov/oes/tables.htm). Only rows pertinent to NY, CA and national averages were included.
 
@@ -155,29 +159,25 @@ Average_weekly_nyc <- read.csv("data/NYC average weekly hours.csv")
 Average_weekly_nyc <- select(Average_weekly_nyc, -Annual)
 
 
-Average_weekly_national_long <- Average_weekly_national |>
-  pivot_longer(cols = -Year, names_to = "Month", values_to = "Hours") |>
+Average_weekly_national_long <- Average_weekly_national %>%
+  pivot_longer(cols = -Year, names_to = "Month", values_to = "Hours") %>%
   mutate(Location = "National")
 
 
-Average_weekly_nyc_long <- Average_weekly_nyc |>
-  pivot_longer(cols = -Year, names_to = "Month", values_to = "Hours") |>
+Average_weekly_nyc_long <- Average_weekly_nyc %>%
+  pivot_longer(cols = -Year, names_to = "Month", values_to = "Hours") %>%
   mutate(Location = "NYC")
 
 
 combined_data <- rbind(Average_weekly_national_long, Average_weekly_nyc_long)
 
-combined_data <- subset(combined_data, Year >= 2013)
-
 
 month_levels <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
 combined_data$Month <- factor(combined_data$Month, levels = month_levels)
 
-combined_data$Date <- as.Date(paste(combined_data$Year, combined_data$Month, "01", sep = "-"), format = "%Y-%b-%d")
 
 
-
-combined_data <- combined_data |>
+combined_data <- combined_data %>%
   mutate(Quarter = case_when(
     Month %in% c("Jan", "Feb", "Mar") ~ "Q1",
     Month %in% c("Apr", "May", "Jun") ~ "Q2",
@@ -186,9 +186,8 @@ combined_data <- combined_data |>
   ))
 
 
-ggplot(combined_data, aes(x = Date, y = Hours, color = Location)) +
-  geom_line()+
-  #geom_smooth(method = "loess", se = FALSE, span = 0.4)+
+ggplot(combined_data, aes(x = Year, y = Hours, color = Location, group = Location)) +
+  geom_smooth(method = "loess", se = FALSE, span = 0.4)+
   theme_minimal() +
   labs(title = "Comparison of Average Weekly Hours: National vs NYC", x = "Year", y = "Average Weekly Hours") +
   scale_color_manual(values = c("blue", "red"))
@@ -391,6 +390,10 @@ ggparcoord(stats, columns = c(7:12), groupColumn = 13, title = ) +
 
 ## Results: Data Science Mean Salary in Comparison to a Set of Tech Jobs
 ```{r}
+# Reading the datasets
+all_data_NY = read.csv("data/all_data_NY.csv")
+all_data_multi = read.csv("data/all_data_multi.csv")
+
 # Cleveland dot plot of average annual salaries for tech positions in NY for 2022.
 mean_salaries <- all_data_NY[all_data_NY$YEAR == "2022" & all_data_NY$OCC_TITLE %in% target_occupations,] |>
   group_by(OCC_TITLE) |> summarise(Mean_Annual_Salary = mean(A_MEAN))
