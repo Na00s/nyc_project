@@ -19,3 +19,4 @@ df <- subset(df, AREA_TITLE %in% c("New York", "Rochester, NY", "New York-Newark
                                    "San Diego-Carlsbad, CA", "San Jose-Sunnyvale-Santa Clara, CA", "U.S."))
 
 
+

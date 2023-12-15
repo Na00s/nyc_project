@@ -7,6 +7,9 @@
 </style> 
 
 <div id="plot">
+    <div class="group" id="group1"></div>
+    <div class="group" id="group2"></div>
+    <div class="group" id="group3"></div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
