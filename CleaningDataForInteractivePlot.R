@@ -13,10 +13,7 @@ df <- df |> dplyr::select(-c(NAICS, NAICS_TITLE, O_GROUP, TOT_EMP, EMP_PRSE, LOC
 df <- subset(df, OCC_TITLE %in% c("Computer and Information Research Scientists",
                                 "Data Scientists", "Software Developers",
                                 "Statisticians", "All Occupations"))
-df <- subset(df, AREA_TITLE %in% c("New York", "Rochester, NY", "New York-Newark-Jersey City, NY-NJ-PA",
-                                   "Buffalo-Cheektowaga-Niagara Falls, NY", "Albany-Schenectady-Troy, NY",
-                                   "California", "Los Angeles-Long Beach-Anaheim, CA", "San Francisco-Oakland-Hayward, CA",
-                                   "San Diego-Carlsbad, CA", "San Jose-Sunnyvale-Santa Clara, CA", "U.S."))
+df <- subset(df, AREA_TITLE %in% c("New York-Newark-Jersey City, NY-NJ-PA", "San Francisco-Oakland-Hayward, CA", "U.S."))
 
 
 
